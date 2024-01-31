@@ -1,0 +1,15 @@
+{
+  "Hero": {
+    "title": "Cheering the Future",
+    "description": "Discover and connect with schools that shape the future."
+  },
+  "common": {
+    "language": "አማ"
+  },
+  "SearchPlaceHolder": "Type school name",
+  "Menu": {
+    "home": "Home",
+    "schools": "Schools",
+    "about": "About"
+  }
+}

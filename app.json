@@ -16,14 +16,20 @@
       "supportsTablet": true
     },
     "android": {
-      "enableDangerousExperimentalLeanBuilds": true,
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "package": "com.atnaf.goalapp"
     },
     "web": {
       "favicon": "./assets/favicon.png"
-    }
+    },
+    "extra": {
+      "eas": {
+        "projectId": "e644b7e6-98ae-433b-87c5-c0029b133a54"
+      }
+    },
+    "owner": "atnaf"
   }
 }

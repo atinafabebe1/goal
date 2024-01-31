@@ -1,4 +1,3 @@
-// screens/SearchSchool.js
 import React, { useState } from 'react';
 import { View, Text, StyleSheet, TextInput, Button } from 'react-native';
 
@@ -6,7 +5,6 @@ const SearchSchool = () => {
     const [searchQuery, setSearchQuery] = useState('');
 
     const handleSearch = () => {
-        // Add logic to handle search (e.g., API call, filtering data)
         console.log('Search Query:', searchQuery);
     };
 

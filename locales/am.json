@@ -1,0 +1,15 @@
+{
+  "Hero": {
+    "title": "ትውልድን ማበረታታት",
+    "description": "ትውልድን የሚቀርጹ ትምህርት ቤቶችን ያግኙ ይገናኙ።"
+  },
+  "SearchPlaceHolder": "የትምህርት ቤት ስም ያስገቡ",
+  "common": {
+    "language": "EN"
+  },
+  "Menu": {
+    "home": "ቤት",
+    "schools": "ትምህርት ቤቶች",
+    "about": "ስለ እኛ"
+  }
+}

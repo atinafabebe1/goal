@@ -4,8 +4,9 @@ import { View, Text, StyleSheet } from 'react-native';
 const AboutPage = () => {
     return (
         <View style={styles.container}>
-            <Text style={styles.title}>About Us</Text>
-            <Text>This is the about page content. Add your information here.</Text>
+            <Text style={styles.content}>
+                Information about goal
+            </Text>
         </View>
     );
 };
@@ -20,7 +21,13 @@ const styles = StyleSheet.create({
     title: {
         fontSize: 24,
         fontWeight: 'bold',
-        marginBottom: 20,
+        marginBottom: 16,
+    },
+    content: {
+        fontSize: 16,
+        textAlign: 'center',
+        color: 'gray',
+        lineHeight: 24,
     },
 });
 
