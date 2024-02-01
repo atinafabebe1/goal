@@ -53,6 +53,33 @@ const SchoolsProvider = ({ children }) => {
             }
         );
     };
+    const rateSchool = (school) => {
+        SchoolsCrud.updateSchool(
+            school,
+            () => {
+                SchoolsCrud.getSchoolById(
+                    school.id,
+                    (result) => {
+                        const updatedSchool = result.rows.item(0);
+                        setSchools((prevSchools) => {
+                            const updatedSchools = [...prevSchools];
+                            const index = updatedSchools.findIndex((s) => s.id === school.id);
+                            if (index !== -1) {
+                                updatedSchools[index] = { ...updatedSchool };
+                            }
+                            return updatedSchools;
+                        });
+                    },
+                    (error) => {
+                        console.error('Error fetching updated school:', error);
+                    }
+                );
+            },
+            (error) => {
+                console.error('Error updating school:', error);
+            }
+        );
+    };
 
     const removeSchool = (schoolId) => {
         SchoolsCrud.deleteSchool(
@@ -67,7 +94,7 @@ const SchoolsProvider = ({ children }) => {
     };
 
     return (
-        <SchoolsContext.Provider value={{ schools, addSchool, updateSchool, removeSchool }}>
+        <SchoolsContext.Provider value={{ schools, addSchool, updateSchool, removeSchool, rateSchool }}>
             {children}
         </SchoolsContext.Provider>
     );

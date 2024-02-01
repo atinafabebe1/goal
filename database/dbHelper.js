@@ -29,16 +29,18 @@ const executeQuery = (sql, params = []) => {
 const initDatabase = async () => {
     const createTableSQL = `
     CREATE TABLE IF NOT EXISTS schools (
-      id INTEGER PRIMARY KEY AUTOINCREMENT,
-      name TEXT,
-      year INTEGER,
-      description TEXT,
-      logo TEXT,
-      location TEXT,
-      latitude REAL,
-      longitude REAL
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        name TEXT,
+        year REAL,
+        description TEXT,
+        logo TEXT,
+        location TEXT,
+        latitude REAL,
+        longitude REAL,
+        rating INTEGER DEFAULT 0,
+        numberOfUserrate INTEGER DEFAULT 0
     );
-  `;
+`;
 
     await executeQuery(createTableSQL);
 };
@@ -46,11 +48,9 @@ const initDatabase = async () => {
 const initSchoolsAsync = async () => {
     try {
         const insertSchoolsSQL = `
-      INSERT INTO schools (name, year, description, logo, location, latitude, longitude)
-      VALUES (?, ?, ?, ?, ?, ?, ?);
-    `;
-
-        // School 1
+    INSERT INTO schools (name, year, description, logo, location, latitude, longitude, rating,numberOfUserrate)
+    VALUES (?, ?, ?, ?, ?, ?, ?, ?,?);
+`;
         await executeQuery(insertSchoolsSQL, [
             'Addis Ketama',
             2000,
@@ -59,9 +59,10 @@ const initSchoolsAsync = async () => {
             'Addis Abeba',
             9.03556063665855,
             38.733211220922655,
+            4,
+            10,
         ]);
 
-        // School 2
         await executeQuery(insertSchoolsSQL, [
             'Menene',
             2005,
@@ -70,9 +71,10 @@ const initSchoolsAsync = async () => {
             'Addis Abeba',
             9.051938890547934,
             38.759517001555494,
+            5,
+            10
         ]);
 
-        // School 3
         await executeQuery(insertSchoolsSQL, [
             'Goro High School',
             2010,
@@ -81,6 +83,8 @@ const initSchoolsAsync = async () => {
             'Addis Abeba',
             11.4321,
             54.9876,
+            3,
+            20
         ]);
 
         console.log('Schools inserted successfully');

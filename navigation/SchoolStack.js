@@ -2,6 +2,7 @@ import { createStackNavigator } from "@react-navigation/stack";
 import SchoolList from "../screens/SchoolList";
 import School from "../screens/School";
 import { useTheme } from "react-native-paper";
+import EditSchoolScreen from "../screens/EditSchool";
 
 const SchoolsStack = createStackNavigator();
 
@@ -23,6 +24,7 @@ export const SchoolsStackNavigator = () => {
         <SchoolsStack.Navigator screenOptions={screenOptions}>
             <SchoolsStack.Screen name="Schools List" component={SchoolList} />
             <SchoolsStack.Screen name="School" component={School} />
+            <SchoolsStack.Screen name="Edit School" component={EditSchoolScreen} />
         </SchoolsStack.Navigator>
     );
 };

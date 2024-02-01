@@ -7,6 +7,7 @@ import { HomeStackNavigator } from './HomeStack';
 import { SchoolsStackNavigator } from './SchoolStack';
 import { useTheme } from 'react-native-paper';
 import { useTranslation } from 'react-i18next';
+import { LoginPage } from '../screens/Login';
 
 const Tab = createBottomTabNavigator();
 
@@ -26,6 +27,8 @@ const MainTabNavigator = () => {
                         iconName = focused ? 'school' : 'school-outline';
                     } else if (route.name === t("Menu.about")) {
                         iconName = focused ? 'information-circle' : 'information-circle-outline';
+                    } else if (route.name === "Login") {
+                        iconName = focused ? 'log-in' : 'log-in-outline';
                     }
 
                     return <Ionicons name={iconName} size={size} color={color} />;
@@ -44,6 +47,16 @@ const MainTabNavigator = () => {
             <Tab.Screen name={t("Menu.home")} component={HomeStackNavigator} options={{ headerShown: false }} />
             <Tab.Screen name={t("Menu.schools")} component={SchoolsStackNavigator} options={{ headerShown: false }} />
             <Tab.Screen name={t("Menu.about")} component={AboutPage} options={{
+                headerShown: true, headerStyle: {
+                    backgroundColor: theme.colors.primary,
+                },
+                headerTintColor: "#fff",
+                headerTitleStyle: {
+                    fontSize: 20,
+                    fontWeight: 'bold',
+                },
+            }} />
+            <Tab.Screen name='Login' component={LoginPage} options={{
                 headerShown: true, headerStyle: {
                     backgroundColor: theme.colors.primary,
                 },

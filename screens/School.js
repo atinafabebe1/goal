@@ -8,41 +8,57 @@ import {
     ScrollView,
     TouchableOpacity,
 } from 'react-native';
-import * as Font from 'expo-font';
 import { useTheme } from 'react-native-paper';
 import MapView, { Marker } from 'react-native-maps';
 import * as Sharing from 'expo-sharing';
-import * as FileSystem from 'expo-file-system';
 import ViewShot, { captureRef } from 'react-native-view-shot';
+import { MaterialIcons } from 'react-native-vector-icons';
+import { useSchools } from '../context/SchoolProvider';
 
 const School = ({ route }) => {
     const { school } = route.params;
+    const { rateSchool } = useSchools();
+
+
+
     const theme = useTheme();
     const viewShotRef = useRef(null);
     const screenHeight = Dimensions.get('window').height;
-    const [fontsLoaded, setFontsLoaded] = useState(false);
     const [expanded, setExpanded] = useState(false);
-
-    useEffect(() => {
-        const loadFonts = async () => {
-            await Font.loadAsync({
-                'OpenSans-Regular': require('../assets/fonts/static/OpenSans-Regular.ttf'),
-                'OpenSans-Bold': require('../assets/fonts/static/OpenSans-Bold.ttf'),
-            });
-            setFontsLoaded(true);
-        };
-
-
-        loadFonts();
-    }, []);
-
-    if (!fontsLoaded) {
-        return null;
-    }
+    const [rating, setRating] = useState(school.rating || 0);
 
 
     const toggleDescription = () => {
         setExpanded(!expanded);
+    };
+
+    const handleStarPress = (selectedRating) => {
+        setRating(selectedRating);
+        school.rating = selectedRating;
+        console.log(school.numberOfUserrate)
+
+        rateSchool(school, () => {
+            // Handle 
+        }, (error) => {
+            console.error('Error updating school rating:', error);
+        });
+    };
+
+
+    const renderStars = () => {
+        const stars = [];
+        const maxStars = 5;
+
+        for (let i = 1; i <= maxStars; i++) {
+            const iconName = i <= rating ? 'star' : 'star-border';
+            stars.push(
+                <TouchableOpacity key={i} onPress={() => handleStarPress(i)}>
+                    <MaterialIcons name={iconName} size={30} color={"#ffd700"} />
+                </TouchableOpacity>
+            );
+        }
+
+        return stars;
     };
 
     const handleShare = async () => {
@@ -89,7 +105,6 @@ const School = ({ route }) => {
             borderRadius: 10,
         },
         schoolName: {
-            fontFamily: 'OpenSans-Bold',
             fontWeight: 'bold',
             fontSize: 32,
             textAlign: 'center',
@@ -103,14 +118,12 @@ const School = ({ route }) => {
             marginBottom: 24,
         },
         description: {
-            fontFamily: 'OpenSans-Regular',
             fontSize: 20,
             color: theme.colors.text,
             textAlign: 'center',
             marginBottom: 12,
         },
         year: {
-            fontFamily: 'OpenSans-Regular',
             fontSize: 18,
             color: theme.colors.primary,
             textAlign: 'center',
@@ -141,6 +154,13 @@ const School = ({ route }) => {
             fontSize: 18,
             textAlign: 'center',
         },
+        starContainer: {
+            flexDirection: 'row',
+            justifyContent: 'center',
+            alignItems: 'center',
+            marginTop: 10,
+            marginBottom: 20,
+        },
     });
     return (
         <ScrollView>
@@ -167,6 +187,7 @@ const School = ({ route }) => {
                     </Text>
                 )}
                 <Text style={styles.year}>Founded in {school.year}</Text>
+                <View style={styles.starContainer}>{renderStars()}</View>
                 <TouchableOpacity onPress={handleShare} style={styles.shareButton}>
                     <Text style={styles.shareButtonText}>Share</Text>
                 </TouchableOpacity>

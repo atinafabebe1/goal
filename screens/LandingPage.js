@@ -1,26 +1,15 @@
 import React, { useState, useEffect } from 'react';
-import {
-    View,
-    Text,
-    StyleSheet,
-    ImageBackground,
-    ActivityIndicator,
-    ScrollView,
-    Keyboard,
-} from 'react-native';
-import {
-    Button,
-    Searchbar,
-    List,
-    TouchableRipple,
-    useTheme,
-} from 'react-native-paper';
+import { View, Text, StyleSheet, ImageBackground, ActivityIndicator, ScrollView, Keyboard } from 'react-native';
+import { Button, Searchbar, List, TouchableRipple, useTheme, IconButton } from 'react-native-paper';
 import { useSchools } from '../context/SchoolProvider';
 import SearchInput from '../components/Search';
 import { useTranslation } from 'react-i18next';
+import { useUserRole } from '../context/userRole';
 
 const LandingPage = ({ navigation }) => {
     const { t } = useTranslation()
+    const { userRole } = useUserRole()
+
     const theme = useTheme();
     const styles = createStyles(theme);
 
@@ -60,6 +49,10 @@ const LandingPage = ({ navigation }) => {
         Keyboard.dismiss();
     };
 
+    const handleAddSchoolClick = () => {
+        navigation.navigate('AddSchool');
+    };
+
     return (
         <View style={styles.container}>
             <ImageBackground
@@ -89,9 +82,7 @@ const LandingPage = ({ navigation }) => {
                     )}
 
                     {searchResults.length > 0 && (
-                        <ScrollView
-                            keyboardShouldPersistTaps="handled"
-                        >
+                        <ScrollView keyboardShouldPersistTaps="handled">
                             <List.Section>
                                 {searchResults.map((item) => (
                                     <TouchableRipple
@@ -115,6 +106,15 @@ const LandingPage = ({ navigation }) => {
                     {searchQuery && searchResults.length === 0 && !isLoading && (
                         <Text style={styles.noResultsText}>No results found</Text>
                     )}
+                    {userRole === "admin" &&
+                        <IconButton
+                            icon="plus"
+                            color={theme.colors.accent}
+                            size={50}
+                            style={styles.addButton}
+                            onPress={handleAddSchoolClick}
+                        />
+                    }
                 </View>
             </ImageBackground>
         </View>
@@ -183,6 +183,14 @@ const createStyles = (theme) =>
             color: theme.colors.primary,
             fontSize: 20,
             marginBottom: 4,
+        },
+        addButton: {
+            color: "white",
+            position: 'absolute',
+            bottom: 16,
+            right: 16,
+            backgroundColor: theme.colors.primary,
+            borderRadius: 50,
         },
     });
 

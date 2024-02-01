@@ -6,6 +6,7 @@ import LandingPage from '../screens/LandingPage';
 import School from '../screens/School';
 import { useTheme } from 'react-native-paper';
 import { useTranslation } from 'react-i18next';
+import AddSchoolScreen from '../screens/AddSchool';
 
 const HomeStack = createStackNavigator();
 
@@ -56,6 +57,7 @@ export const HomeStackNavigator = () => {
             />
             <HomeStack.Screen name="Result" component={SearchResults} />
             <HomeStack.Screen name="School" component={School} />
+            <HomeStack.Screen name="AddSchool" component={AddSchoolScreen} />
         </HomeStack.Navigator>
     );
 };
