@@ -19,7 +19,6 @@ const School = ({ route }) => {
     const { school } = route.params;
     const theme = useTheme();
     const viewShotRef = useRef(null);
-
     const screenHeight = Dimensions.get('window').height;
     const [fontsLoaded, setFontsLoaded] = useState(false);
     const [expanded, setExpanded] = useState(false);
@@ -32,6 +31,7 @@ const School = ({ route }) => {
             });
             setFontsLoaded(true);
         };
+
 
         loadFonts();
     }, []);
@@ -142,13 +142,14 @@ const School = ({ route }) => {
             textAlign: 'center',
         },
     });
-
     return (
         <ScrollView>
             <View style={styles.container}>
 
                 <ViewShot ref={viewShotRef} >
-                    <Image source={school.logo} style={styles.logo} />
+
+                    <Image source={{ uri: school.logo }} style={styles.logo} />
+
                     <Text style={styles.schoolName}>{school.name}</Text>
                     <Text style={styles.location}>{school.location}</Text>
                 </ViewShot>

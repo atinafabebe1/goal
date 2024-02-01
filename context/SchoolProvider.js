@@ -1,50 +1,73 @@
-import React, { createContext, useState, useContext, useEffect } from 'react';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-
-import schoolsData from '../data/schools';
+import React, { createContext, useContext, useEffect, useState } from 'react';
+import { SchoolsCrud } from '../database/schoolsCrud';
 
 const SchoolsContext = createContext();
 
 const SchoolsProvider = ({ children }) => {
-    const [loadedSchools, setLoadedSchools] = useState([]);
     const [schools, setSchools] = useState([]);
 
     useEffect(() => {
-        const loadSchools = async () => {
-            try {
-                const storedSchools = await AsyncStorage.getItem('schools');
-                const parsedSchools = storedSchools ? JSON.parse(storedSchools) : schoolsData;
-                setLoadedSchools(parsedSchools);
-                setSchools(parsedSchools);
-            } catch (error) {
-                console.error('Error loading schools:', error);
-            }
+        const loadSchools = () => {
+            SchoolsCrud.getSchools(
+                (result) => {
+                    const loadedSchools = result.rows._array;
+                    setSchools(loadedSchools);
+                },
+                (error) => {
+                    console.error('Error loading schools:', error);
+                }
+            );
         };
 
         loadSchools();
     }, []);
 
-    useEffect(() => {
-        const saveSchools = async () => {
-            try {
-                await AsyncStorage.setItem('schools', JSON.stringify(schools));
-            } catch (error) {
-                console.error('Error saving schools:', error);
+    const addSchool = (school) => {
+        SchoolsCrud.insertSchool(
+            school,
+            (result) => {
+                const newSchool = { ...school, id: result.insertId };
+                setSchools((prevSchools) => [...prevSchools, newSchool]);
+            },
+            (error) => {
+                console.error('Error adding school:', error);
             }
-        };
+        );
+    };
 
-        saveSchools();
-    }, [schools]);
+    const updateSchool = (school) => {
+        SchoolsCrud.updateSchool(
+            school,
+            () => {
+                setSchools((prevSchools) => {
+                    const updatedSchools = [...prevSchools];
+                    const index = updatedSchools.findIndex((s) => s.id === school.id);
+                    if (index !== -1) {
+                        updatedSchools[index] = { ...school };
+                    }
+                    return updatedSchools;
+                });
+            },
+            (error) => {
+                console.error('Error updating school:', error);
+            }
+        );
+    };
 
-    useEffect(() => {
-        if (JSON.stringify(schoolsData) !== JSON.stringify(loadedSchools)) {
-            setLoadedSchools(schoolsData);
-            setSchools(schoolsData);
-        }
-    }, [loadedSchools]);
+    const removeSchool = (schoolId) => {
+        SchoolsCrud.deleteSchool(
+            schoolId,
+            () => {
+                setSchools((prevSchools) => prevSchools.filter((school) => school.id !== schoolId));
+            },
+            (error) => {
+                console.error('Error removing school:', error);
+            }
+        );
+    };
 
     return (
-        <SchoolsContext.Provider value={{ schools, setSchools }}>
+        <SchoolsContext.Provider value={{ schools, addSchool, updateSchool, removeSchool }}>
             {children}
         </SchoolsContext.Provider>
     );
