@@ -121,15 +121,17 @@ const AddSchoolScreen = ({ navigation }) => {
             <Button mode="contained" onPress={handleAddSchool} style={styles.addButton}>
                 Add School
             </Button>
+            <View style={styles.snackbarContainer}>
+                <Snackbar
+                    visible={snackbarVisible}
+                    onDismiss={() => setSnackbarVisible(false)}
+                    duration={3000}
+                    style={styles.snackbar}
+                >
+                    {snackbarText}
+                </Snackbar>
+            </View>
 
-            <Snackbar
-                visible={snackbarVisible}
-                onDismiss={() => setSnackbarVisible(false)}
-                duration={3000}
-                style={styles.snackbar}
-            >
-                {snackbarText}
-            </Snackbar>
         </ScrollView>
     );
 };
@@ -165,11 +167,15 @@ const createStyles = (theme) =>
             marginTop: 20,
             backgroundColor: theme.colors.primary,
         },
+        snackbarContainer: {
+            flex: 1,
+            alignItems: 'center',
+            justifyContent: 'center',
+        },
         snackbar: {
             backgroundColor: theme.colors.accent,
-            width: "100%",
-            flex: "row",
-            justifyContent: "center"
+            width: '100%',
+            borderRadius: 8,
         },
     });
 

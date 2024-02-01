@@ -23,6 +23,7 @@ const SchoolsProvider = ({ children }) => {
     }, []);
 
     const addSchool = (school) => {
+        console.log(school)
         SchoolsCrud.insertSchool(
             school,
             (result) => {

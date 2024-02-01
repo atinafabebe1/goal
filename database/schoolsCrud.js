@@ -6,7 +6,7 @@ const db = SQLite.openDatabase('schools.db');
 const insertSchool = (school, successCallback, errorCallback) => {
     db.transaction((tx) => {
         tx.executeSql(
-            'INSERT INTO schools (name, year, description, logo, location, latitude, longitude) VALUES (?, ?, ?, ?, ?, ?, ?);',
+            'INSERT INTO schools (name, year, description, logo, location, latitude, longitude,rating,numberOfUserRate) VALUES (?, ?, ?, ?, ?, ?, ?,?,?);',
             [
                 school.name,
                 school.year,
@@ -15,6 +15,8 @@ const insertSchool = (school, successCallback, errorCallback) => {
                 school.location,
                 school.latitude,
                 school.longitude,
+                0,
+                0
             ],
             (_, result) => successCallback(result),
             (_, error) => {
@@ -65,7 +67,7 @@ const updateSchool = (school, successCallback, errorCallback) => {
 const rateSchool = (school, successCallback, errorCallback) => {
     db.transaction((tx) => {
         tx.executeSql(
-            'UPDATE schools SET rating = (rating * numberOfUserrate + ?) / (numberOfUserrate + 1), numberOfUserrate = numberOfUserrate + 1 WHERE id = ?;',
+            'UPDATE schools SET rating = (rating * numberOfUserRate + ?) / (numberOfUserRate + 1), numberOfUserRate = numberOfUserRate + 1 WHERE id = ?;',
             [
                 school.rating,
                 school.id,

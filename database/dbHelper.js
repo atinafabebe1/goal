@@ -38,7 +38,7 @@ const initDatabase = async () => {
         latitude REAL,
         longitude REAL,
         rating INTEGER DEFAULT 0,
-        numberOfUserrate INTEGER DEFAULT 0
+        numberOfUserRate INTEGER DEFAULT 0
     );
 `;
 
@@ -48,7 +48,7 @@ const initDatabase = async () => {
 const initSchoolsAsync = async () => {
     try {
         const insertSchoolsSQL = `
-    INSERT INTO schools (name, year, description, logo, location, latitude, longitude, rating,numberOfUserrate)
+    INSERT INTO schools (name, year, description, logo, location, latitude, longitude, rating,numberOfUserRate)
     VALUES (?, ?, ?, ?, ?, ?, ?, ?,?);
 `;
         await executeQuery(insertSchoolsSQL, [

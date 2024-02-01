@@ -35,7 +35,7 @@ const School = ({ route }) => {
     const handleStarPress = (selectedRating) => {
         setRating(selectedRating);
         school.rating = selectedRating;
-        console.log(school.numberOfUserrate)
+        console.log(school.numberOfUserRate)
 
         rateSchool(school, () => {
             // Handle 
